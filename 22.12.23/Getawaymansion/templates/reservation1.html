@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Getaway Mansion</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="booking.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav>
+        <div class="logo">
+            <a href="{{ url_for('index') }}"><img src="images/logo.png" width="70px" height="auto;"></a>
+        </div>
+        <ul>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('explore') }}">Explore</a></li>
+            <li><a href="{{ url_for('rooms') }}">Rooms</a></li>
+            <li><a href="{{ url_for('about_us') }}">About Us</a></li>
+            <li><a href="{{ url_for('contact_us') }}">Contact Us</a></li>
+        </ul>
+        <div class="menu">
+            <div class="menu-line"></div>
+            <div class="menu-line"></div>
+            <div class="menu-line"></div>
+        </div>
+    </nav>
+
+    <div class="b-example-divider">&nbsp;</div>
+    <div class="container">
+        <form id="reservationForm" action="{{ url_for('reservation') }}" method="post">
+            <!-- Dates Section -->
+            <h2 class="pb-2 border-bottom" style="text-align: center;">Dates</h2>
+            <p class="subtext" style="text-align: center;">Kindly choose check-in and check-out dates</p><br>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 d-flex align-items-fix">
+                    <div class="icon-box">
+                        <label>Check In Date:</label>
+                        <input type="date" class="checkindate" name="checkindate" max="" id="checkindate" required>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+                    <div class="icon-box">
+                        <label>Check Out Date:</label>
+                        <input type="date" class="checkoutdate" name="checkoutdate" id="checkoutdate" onchange="getDays()" required>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+                    <div class="icon-box">
+                        <label>Number of Nights:</label>
+                        <input type="text" class="daynumber" name="daynumber" id="days" style="border-color: #c70000;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="b-example-divider">&nbsp;</div>
+
+            <!-- Room Details Section -->
+            <h2 class="pb-2 border-bottom" style="text-align: center;">Room Details</h2>
+            <p class="subtext" style="text-align: center;">Kindly select your room</p><br>
+            <div id="rooms-container">
+                <!-- Initial room container without the form -->
+                <div class="room-container">
+                    <label for="roomType">Room Type:</label>
+                    <select class="roomType" name="roomType" onchange="checkGuestLimit(this)" required>
+                        <option value="penthouse">Penthouse</option>
+                        <option value="presidentialsuite">Presidential Suite</option>
+                        <option value="executivesuite">Executive Suite</option>
+                        <option value="studio">Studio</option>
+                        <option value="deluxe">Deluxe Room</option>
+                        <option value="standard">Standard Room</option>
+                    </select>
+                </div>
+            </div>
+            <div class="b-example-divider">&nbsp;</div>
+            <button type="submit">Proceed</button>
+            <div class="b-example-divider">&nbsp;</div>
+        </form>
+    </div>
+
+<!--FOOTER SECTION-->
+<div class="b-example-divider">&nbsp;</div>
+<div class="container-fluid">
+  <footer class="py-5" style(="background-color: #FFF7F5;")>
+    <div class="row">
+      <div class="col-6 col-md-3 mb-3">
+        <h5 style(="text-align:center;")>The Getaway Mansion</h5>
+        <p style(="text-align: justify;")>Experience the epitome of luxury at Getaway Mansion, where every moment is a masterpiece, and every stay is a treasure</p>
+        
+      </div>
+
+      <div class="col-6 col-md-2 mb-0">
+        <h5>Quick Links</h5>
+        <ul class="nav flex-column">
+          <li class="nav-item mb-2"><a href="{{ url_for('index') }}" class="nav-link p-0 text-body-secondary">Home</a></li>
+          <li class="nav-item mb-2"><a href="{{ url_for('explore') }}" class="nav-link p-0 text-body-secondary">Explore</a></li>
+          <li class="nav-item mb-2"><a href="{{ url_for('rooms') }}" class="nav-link p-0 text-body-secondary">Rooms</a></li>
+          <li class="nav-item mb-2"><a href="{{ url_for('aboutus') }}" class="nav-link p-0 text-body-secondary">About Us</a></li>
+          <li class="nav-item mb-2"><a href="{{ url_for('contactus') }}" class="nav-link p-0 text-body-secondary">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div class="col-6 col-md mb">
+        <h5>Company</h5>
+        <ul class="nav flex-column">
+          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Privacy Policy</a></li>
+          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Refund Policy</a></li>
+          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">F.A.Q</a></li>
+          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About Us</a></li>
+          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div class="col-md-5 offset-md-6.5 mb-1">
+        <form>
+          <h5>Subscribe to our newsletter</h5>
+          <p>Monthly digest of what's new and exciting from us.</p>
+          <div class="d-flex flex-column flex-sm-row w-100 gap-2">
+            <label for="newsletter1" class="visually-hidden">Email address</label>
+            <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
+            <a href="/" class="bn1">Subscribe</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
+      <p>&copy; 2023 The Getaway Mansion, Inc. All rights reserved.</p>
+      <p class="float-end" style(="text-align: end;")><a href="#">Back to top</a></p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+  <script type="text/javascript">
+      var checkinDate;
+      $('#checkindate').on('change', function () {
+          checkinDate = $(this).val();
+          $('#checkoutdate').prop('min', checkinDate);
+      });
+
+      $('#checkoutdate').on('change', function () {
+          var checkoutDate = $(this).val();
+          $('#checkindate').prop('max', checkoutDate);
+      });
+  </script>
+  <script src="main.js"></script>
+  <script>
+      function submitForm() {
+          // Get date-related information
+          var checkInDate = document.getElementById('checkindate').value;
+          var checkOutDate = document.getElementById('checkoutdate').value;
+          var numberOfNights = document.getElementById('days').value;
+
+          // Check if date fields are filled in
+          if (!checkInDate || !checkOutDate) {
+              alert('Kindly fill in all date fields');
+              return; // Stop further execution
+          }
+      }
+  </script>
+</body>
+</html>
